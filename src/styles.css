@@ -152,8 +152,125 @@
     border-color: var(--color-border);
   }
 
+  html {
+    scroll-behavior: smooth;
+    scroll-padding-top: 5.5rem;
+  }
+
   body {
     background-color: var(--color-background);
     color: var(--color-foreground);
+    font-family: var(--font-sans);
+    overflow-x: hidden;
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--ring);
+    outline-offset: 2px;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto;
+    }
   }
 }
+
+@utility focus-ring {
+  &:focus-visible {
+    outline: 2px solid var(--ring);
+    outline-offset: 2px;
+  }
+}
+
+@utility shadow-soft {
+  box-shadow: var(--shadow-soft);
+}
+
+@utility shadow-elevated {
+  box-shadow: var(--shadow-elevated);
+}
+
+@utility btn-base {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  border-radius: var(--radius-xl);
+  padding: 0.75rem 1.35rem;
+  font-size: 0.9rem;
+  font-weight: 600;
+  line-height: 1.2;
+  transition:
+    background-color 0.2s ease,
+    color 0.2s ease,
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
+  &:hover {
+    transform: translateY(-1px);
+  }
+  &:focus-visible {
+    outline: 2px solid var(--ring);
+    outline-offset: 2px;
+  }
+}
+
+@utility btn-primary {
+  @apply btn-base;
+  background-color: var(--primary);
+  color: var(--primary-foreground);
+  box-shadow: var(--shadow-soft);
+  &:hover {
+    background-color: color-mix(in oklab, var(--primary) 88%, white);
+  }
+}
+
+@utility btn-accent {
+  @apply btn-base;
+  background-color: var(--highlight);
+  color: var(--highlight-foreground);
+  box-shadow: var(--shadow-soft);
+  &:hover {
+    background-color: color-mix(in oklab, var(--highlight) 88%, white);
+  }
+}
+
+@utility btn-outline {
+  @apply btn-base;
+  border: 1px solid var(--border);
+  background-color: var(--background);
+  color: var(--primary);
+  &:hover {
+    background-color: var(--secondary);
+  }
+}
+
+@utility btn-ghost-light {
+  @apply btn-base;
+  border: 1px solid color-mix(in oklab, white 45%, transparent);
+  color: white;
+  &:hover {
+    background-color: color-mix(in oklab, white 14%, transparent);
+  }
+}
+
+@utility card-soft {
+  border-radius: var(--radius-2xl);
+  border: 1px solid var(--border);
+  background-color: var(--card);
+  box-shadow: var(--shadow-soft);
+  transition:
+    box-shadow 0.25s ease,
+    transform 0.25s ease;
+  &:hover {
+    box-shadow: var(--shadow-elevated);
+    transform: translateY(-3px);
+  }
+}
+
+@utility section-pad {
+  padding-block: 4.5rem;
+  @media (min-width: 1024px) {
+    padding-block: 6rem;
+  }
+}
+
