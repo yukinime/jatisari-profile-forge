@@ -19,7 +19,13 @@
  */
 
 @theme inline {
+  --font-sans: "Plus Jakarta Sans", ui-sans-serif, system-ui, sans-serif;
+  --color-highlight: var(--highlight);
+  --color-highlight-foreground: var(--highlight-foreground);
+  --shadow-soft: var(--shadow-soft);
+  --shadow-elevated: var(--shadow-elevated);
   --radius-sm: calc(var(--radius) - 4px);
+
   --radius-md: calc(var(--radius) - 2px);
   --radius-lg: var(--radius);
   --radius-xl: calc(var(--radius) + 4px);
@@ -62,26 +68,31 @@
 }
 
 :root {
-  --radius: 0.625rem;
+  --radius: 0.9rem;
   --background: oklch(1 0 0);
-  --foreground: oklch(0.129 0.042 264.695);
+  --foreground: oklch(0.22 0.03 260);
   --card: oklch(1 0 0);
-  --card-foreground: oklch(0.129 0.042 264.695);
+  --card-foreground: oklch(0.22 0.03 260);
   --popover: oklch(1 0 0);
-  --popover-foreground: oklch(0.129 0.042 264.695);
-  --primary: oklch(0.208 0.042 265.755);
-  --primary-foreground: oklch(0.984 0.003 247.858);
-  --secondary: oklch(0.968 0.007 247.896);
-  --secondary-foreground: oklch(0.208 0.042 265.755);
-  --muted: oklch(0.968 0.007 247.896);
-  --muted-foreground: oklch(0.554 0.046 257.417);
-  --accent: oklch(0.968 0.007 247.896);
-  --accent-foreground: oklch(0.208 0.042 265.755);
+  --popover-foreground: oklch(0.22 0.03 260);
+  /* Navy — warna utama sekolah */
+  --primary: oklch(0.32 0.09 262);
+  --primary-foreground: oklch(0.99 0.005 250);
+  --secondary: oklch(0.965 0.012 250);
+  --secondary-foreground: oklch(0.32 0.09 262);
+  --muted: oklch(0.968 0.008 250);
+  --muted-foreground: oklch(0.52 0.03 258);
+  /* Cyan / biru terang */
+  --accent: oklch(0.7 0.14 225);
+  --accent-foreground: oklch(0.2 0.05 260);
+  /* Kuning-oranye untuk CTA */
+  --highlight: oklch(0.79 0.16 71);
+  --highlight-foreground: oklch(0.25 0.06 60);
   --destructive: oklch(0.577 0.245 27.325);
   --destructive-foreground: oklch(0.984 0.003 247.858);
-  --border: oklch(0.929 0.013 255.508);
-  --input: oklch(0.929 0.013 255.508);
-  --ring: oklch(0.704 0.04 256.788);
+  --border: oklch(0.92 0.012 250);
+  --input: oklch(0.92 0.012 250);
+  --ring: oklch(0.6 0.12 240);
   --chart-1: oklch(0.646 0.222 41.116);
   --chart-2: oklch(0.6 0.118 184.704);
   --chart-3: oklch(0.398 0.07 227.392);
@@ -95,7 +106,11 @@
   --sidebar-accent-foreground: oklch(0.208 0.042 265.755);
   --sidebar-border: oklch(0.929 0.013 255.508);
   --sidebar-ring: oklch(0.704 0.04 256.788);
+
+  --shadow-soft: 0 1px 2px oklch(0.32 0.09 262 / 0.06), 0 8px 24px oklch(0.32 0.09 262 / 0.07);
+  --shadow-elevated: 0 12px 36px oklch(0.32 0.09 262 / 0.16);
 }
+
 
 .dark {
   --background: oklch(0.129 0.042 264.695);
@@ -137,8 +152,125 @@
     border-color: var(--color-border);
   }
 
+  html {
+    scroll-behavior: smooth;
+    scroll-padding-top: 5.5rem;
+  }
+
   body {
     background-color: var(--color-background);
     color: var(--color-foreground);
+    font-family: var(--font-sans);
+    overflow-x: hidden;
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--ring);
+    outline-offset: 2px;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto;
+    }
   }
 }
+
+@utility focus-ring {
+  &:focus-visible {
+    outline: 2px solid var(--ring);
+    outline-offset: 2px;
+  }
+}
+
+@utility shadow-soft {
+  box-shadow: var(--shadow-soft);
+}
+
+@utility shadow-elevated {
+  box-shadow: var(--shadow-elevated);
+}
+
+@utility btn-base {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  border-radius: var(--radius-xl);
+  padding: 0.75rem 1.35rem;
+  font-size: 0.9rem;
+  font-weight: 600;
+  line-height: 1.2;
+  transition:
+    background-color 0.2s ease,
+    color 0.2s ease,
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
+  &:hover {
+    transform: translateY(-1px);
+  }
+  &:focus-visible {
+    outline: 2px solid var(--ring);
+    outline-offset: 2px;
+  }
+}
+
+@utility btn-primary {
+  @apply btn-base;
+  background-color: var(--primary);
+  color: var(--primary-foreground);
+  box-shadow: var(--shadow-soft);
+  &:hover {
+    background-color: color-mix(in oklab, var(--primary) 88%, white);
+  }
+}
+
+@utility btn-accent {
+  @apply btn-base;
+  background-color: var(--highlight);
+  color: var(--highlight-foreground);
+  box-shadow: var(--shadow-soft);
+  &:hover {
+    background-color: color-mix(in oklab, var(--highlight) 88%, white);
+  }
+}
+
+@utility btn-outline {
+  @apply btn-base;
+  border: 1px solid var(--border);
+  background-color: var(--background);
+  color: var(--primary);
+  &:hover {
+    background-color: var(--secondary);
+  }
+}
+
+@utility btn-ghost-light {
+  @apply btn-base;
+  border: 1px solid color-mix(in oklab, white 45%, transparent);
+  color: white;
+  &:hover {
+    background-color: color-mix(in oklab, white 14%, transparent);
+  }
+}
+
+@utility card-soft {
+  border-radius: var(--radius-2xl);
+  border: 1px solid var(--border);
+  background-color: var(--card);
+  box-shadow: var(--shadow-soft);
+  transition:
+    box-shadow 0.25s ease,
+    transform 0.25s ease;
+  &:hover {
+    box-shadow: var(--shadow-elevated);
+    transform: translateY(-3px);
+  }
+}
+
+@utility section-pad {
+  padding-block: 4.5rem;
+  @media (min-width: 1024px) {
+    padding-block: 6rem;
+  }
+}
+
